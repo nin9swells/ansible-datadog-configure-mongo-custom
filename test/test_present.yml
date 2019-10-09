@@ -1,0 +1,12 @@
+---
+- hosts: all
+  vars:
+    custom_check_state: present
+    check_config:
+      init_config:
+        min_collection_interval: 20
+      instances:
+        - server: mongodb://datadog:abcdef@localhost:27017
+
+  roles:
+    - role: ../../ansible-datadog-configure-custom-mongo-checks

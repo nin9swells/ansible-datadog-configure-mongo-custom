@@ -1,0 +1,14 @@
+---
+- name: remove configuration file for custom-mongo
+  file:
+    path: "/etc/dd-agent/conf.d/custom-mongo.yaml"
+    state: "absent"
+  become: true
+
+- name: remove the Python script file for custom-mongo
+  file:
+    path: "/etc/dd-agent/checks.d/custom-mongo.py"
+    state: "absent"
+  become: true
+  notify: restart datadog-agent
+

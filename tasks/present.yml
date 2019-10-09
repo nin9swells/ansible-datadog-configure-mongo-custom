@@ -1,0 +1,30 @@
+---
+- name: ensure /etc/dd-agent/conf.d exists
+  file:
+    path: "/etc/dd-agent/conf.d"
+    state: directory
+  become: true
+
+- name: ensure /etc/dd-agent/checks.d exists
+  file:
+    path: "/etc/dd-agent/checks.d"
+    state: directory
+  become: true
+
+- name: create a configuration file for custom-mongo
+  template:
+    src: checks.yaml.j2
+    dest: "/etc/dd-agent/conf.d/custom-mongo.yaml"
+    owner: "root"
+    group: "root"
+  become: true
+
+- name: create the Python script file for custom-mongo
+  copy:
+    src: "custom-mongo.py"
+    dest: "/etc/dd-agent/checks.d/custom-mongo.py"
+    owner: "root"
+    group: "root"
+  become: true
+  notify: restart datadog-agent
+
